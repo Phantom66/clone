@@ -80,7 +80,7 @@ class PostController extends Controller
      *  en donde se encuentra este archivo.
      *  Inserta los datos a la BD desde una vista.
      * ]
-     * @return  [al index]
+     * @return  view
      */
 
     public function store(CreatePostRequest $request){
