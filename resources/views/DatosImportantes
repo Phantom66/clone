@@ -1,0 +1,38 @@
+{{-- Esto se realiza para evitar la duplicidad de código --}}
+
+
+<form  action={{ route('update_post_path', ['post'=>$post->id]) }} method="POST">
+
+    {{-- Helper de laravel para evitar inyección HTML --}}
+    {{ csrf_field() }}
+
+    {{-- Helper de laravel para enviar una petición put --}}
+     {{  method_field('PUT') }}
+
+
+  {{-- Title field --}}
+  <div class="form-group">
+    <label for="title">Title:</label>
+    <input type="text" name="title" class="form-control" value="{{ $post->title }}">
+
+  </div>
+
+  {{-- Description Input --}}
+
+      <div class="form-group">
+
+        <label for="description"></label>
+        <textarea name="description" rows="5" cols="80" class="form-control"> {{ $post->description }}</textarea>
+
+      </div>
+
+      <div class="form-group">
+        <label for="url">Url:</label>
+        <input type="text" name="url" value="{{ $post->url }}">
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class='btn btn-primary' > Edit Post</button>
+      </div>
+
+</form>
