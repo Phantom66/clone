@@ -7,13 +7,16 @@ use Illuminate\Foundation\Http\FormRequest;
 class CreatePostRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determinar si que solo el usuario que creo el posts
+     * pueda a modificar
      *
      * @return bool
      */
     public function authorize()
     {
-        return true;
+
+
+        return $this->user()->id = $post->user_id;
     }
 
     /**
