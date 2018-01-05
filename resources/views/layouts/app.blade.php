@@ -75,6 +75,13 @@
             </div>
         </nav>
 
+        {{-- Agegando mensaje de errores a la vista parcial --}}
+       @include('layouts._errors')
+
+       {{-- Agregando mensaje de exitos a la vista --}}
+       @include('layouts._messages')
+         {{-- Para indicarle al archivo de donde vamos a reutilizar --}}
+
         <div class="container">
                     @yield('content')
         </div>
