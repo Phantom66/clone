@@ -86,7 +86,7 @@ class PostController extends Controller
     public function store(CreatePostRequest $request){
 
 
-      //$post = new Post;
+      //1.-$post = new Post;
       //recomendado realizarlo así $request->get('name'), también se
       //puede realizar $request-title
       // $post->title = $request->get('title');
@@ -94,8 +94,27 @@ class PostController extends Controller
       // $post->url = $request->get('url');
       // $post->save();
 
-      // Otra manera de realizarlo
-      $post = Post::create($request->only('title','description', 'url'));
+      // 2.-Otra manera de realizarlo
+      //$post = Post::create($request->only('title','description', 'url'));
+
+      //3.-Creando un variable de tipo Post para pasasrle el user_id
+      //del usuario qué está creando el post esto se debe a que como no estamos
+      //relacionando las tablas en la base de datos le pasamos el id por el
+      //Controller
+
+      $post = new Post;
+
+      $post->fill(
+          $request->only('title','description', 'url')
+
+        );
+
+        //Existen diferentes formas de tener el usuario que inicia session
+        //Por medio del Facade \Auth::user()->id;
+        //Por medio del Request $request->user()->id;
+        //o por medio del helper, todas son correctas.
+        $post->user_id = auth()->user()->id;
+        $post->save();
 
       //Luego de crear nuestro Post, enviar un mensaje mesiante un session_flash
       //Una session de tipo flash es una que una vez leída se elimina.
