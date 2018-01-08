@@ -16,7 +16,9 @@ class UpdatePostRequest extends CreatePostRequest
     public function authorize()
     {
 
-        return $this->user()->id = $this->post->user_id;
+      //Comparamos el id del usuario que inició sessión con el id del posts
+      //si es el usuario que creó el post puedemodificar de lo contrario no.
+        return $this->user()->id == $this->post->user_id;
 
     }
 

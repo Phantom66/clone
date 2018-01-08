@@ -166,6 +166,7 @@ class PostController extends Controller
 
         session()->flash('message', 'Post updated!!');
 
+
         return redirect()->route('post_path', ['post' => $post->id]);
 
     }
