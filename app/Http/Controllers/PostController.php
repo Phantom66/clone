@@ -113,10 +113,12 @@ class PostController extends Controller
         //Por medio del Facade \Auth::user()->id;
         //Por medio del Request $request->user()->id;
         //o por medio del helper, todas son correctas.
-        $post->user_id = auth()->user()->id;
+        $post->user_id = $request->user()->id;
         $post->save();
 
-      //Luego de crear nuestro Post, enviar un mensaje mesiante un session_flash
+        //dd($post);
+
+      //Luego de crear nuestro Post, enviar un mensaje mediante un session_flash
       //Una session de tipo flash es una que una vez leída se elimina.
       // flash recibe dos parámetros, el nombre de la session y el otro el valor.
       session()->flash('message', 'Post created!');
