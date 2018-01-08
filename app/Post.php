@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\User;
+
 class Post extends Model
 {
 
@@ -28,4 +30,13 @@ class Post extends Model
     // //Este atributo se le específica para indicarle al método create que campos
     // no debe ser llenado, para efecto de la practica no se necesita .
     // protected $guarded
+    //
+
+    public function user(){
+
+      return $this->belongsTo(User::class);
+
+    }
+
+
 }

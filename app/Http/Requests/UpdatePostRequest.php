@@ -4,29 +4,23 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePostRequest extends FormRequest
+class UpdatePostRequest extends CreatePostRequest
 {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Determinar si que solo el usuario que creo el posts
+     * pueda a modificar
      *
      * @return bool
      */
     public function authorize()
     {
-        return true;
+
+      //Comparamos el id del usuario que inició sessión con el id del posts
+      //si es el usuario que creó el post puedemodificar de lo contrario no.
+        return $this->user()->id == $this->post->user_id;
+
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            //
-            'title' => 'required',
-            'url' => 'required|url'
-        ];
-    }
+
 }

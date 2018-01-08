@@ -80,13 +80,13 @@ class PostController extends Controller
      *  en donde se encuentra este archivo.
      *  Inserta los datos a la BD desde una vista.
      * ]
-     * @return  [al index]
+     * @return  view
      */
 
     public function store(CreatePostRequest $request){
 
 
-      //$post = new Post;
+      //1.-$post = new Post;
       //recomendado realizarlo así $request->get('name'), también se
       //puede realizar $request-title
       // $post->title = $request->get('title');
@@ -94,10 +94,31 @@ class PostController extends Controller
       // $post->url = $request->get('url');
       // $post->save();
 
-      // Otra manera de realizarlo
-      $post = Post::create($request->only('title','description', 'url'));
+      // 2.-Otra manera de realizarlo
+      //$post = Post::create($request->only('title','description', 'url'));
 
-      //Luego de crear nuestro Post, enviar un mensaje mesiante un session_flash
+      //3.-Creando un variable de tipo Post para pasasrle el user_id
+      //del usuario qué está creando el post esto se debe a que como no estamos
+      //relacionando las tablas en la base de datos le pasamos el id por el
+      //Controller
+
+      $post = new Post;
+
+      $post->fill(
+          $request->only('title','description', 'url')
+
+        );
+
+        //Existen diferentes formas de tener el usuario que inicia session
+        //Por medio del Facade \Auth::user()->id;
+        //Por medio del Request $request->user()->id;
+        //o por medio del helper, todas son correctas.
+        $post->user_id = $request->user()->id;
+        $post->save();
+
+        //dd($post);
+
+      //Luego de crear nuestro Post, enviar un mensaje mediante un session_flash
       //Una session de tipo flash es una que una vez leída se elimina.
       // flash recibe dos parámetros, el nombre de la session y el otro el valor.
       session()->flash('message', 'Post created!');
@@ -145,6 +166,7 @@ class PostController extends Controller
 
         session()->flash('message', 'Post updated!!');
 
+
         return redirect()->route('post_path', ['post' => $post->id]);
 
     }
@@ -155,6 +177,14 @@ class PostController extends Controller
      * @return [ view]       [elminia y muestra el listado.]
      */
     public function delete(Post $post){
+
+
+      //Comparamos usuario mediante el Facade si es diferente
+      //no puede eliminar el post y lo redirige hacia al index
+      if($post->user_id != \Auth::user()->id){
+
+        return redirect()->route('posts_path');
+      }
 
        $post->delete();
 
