@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class PostsControllersTest extends TestCase
 {
 
-    // Para ejecutar las migraciones solo debemos usar la clase siguiente
+    // Para ejecutar las migraciones solo debemos usar el trait siguiente
       use DatabaseMigrations;
 
     /**
@@ -47,4 +47,39 @@ class PostsControllersTest extends TestCase
 
 
     }
+
+    /** @test*/
+
+    public function a_registered_user_can_see_all_posts()
+    {
+
+      // Arrange
+      // Creamos el usuario
+      $user = factory(\App\User::class)->create();
+
+      //Método para que el usuario inicie sessión
+      \Auth::loginUsingId($user->id);
+
+      //Crea  un model factoy de Post
+      $posts = factory(\App\Post::class, 10)->create();
+
+
+      // Act
+      // Has un request get a la ruta
+      $reponse = $this->get(route('posts_path'));
+
+
+      // Assert
+      // Si todo está bien enviará un código 200 = ok en telecomunicaciones.
+      $reponse->assertStatus(200);
+
+      foreach ($posts as $post) {
+
+        $reponse->assertSee($post->title);
+
+      }
+
+
+    }
+
 }
