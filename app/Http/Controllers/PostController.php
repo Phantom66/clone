@@ -136,6 +136,13 @@ class PostController extends Controller
 
     public function edit(Post $post){
 
+      //Comparamos usuario mediante el Facade si es diferente
+      //no puede editar el post y lo redirige hacia al index
+      if($post->user_id != \Auth::user()->id){
+
+        return redirect()->route('posts_path');
+      }
+
        return view('posts.edit')->with(['post'=> $post]);
 
     }
