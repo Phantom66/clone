@@ -53,6 +53,12 @@ return [
             'strict' => true,
             'engine' => null,
         ],
+        // Crando pruebas unitarias
+        'testing' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ],
 
         'pgsql' => [
             'driver' => 'pgsql',

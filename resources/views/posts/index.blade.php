@@ -9,10 +9,10 @@
             <a href="{{ route('post_path', ['key' => $key->id])}}"> {{ $key->title }}
             </a>
 
-            {{-- Colocando está condicional para validar si el id del usuario recibido
-            es el mismo que el usuario autorizado, para permitir que vea los botones
-            solo de su publicación creada. --}}
-              @if ($key->user_id ==Auth::user()->id)
+            {{-- Colocando está condicional para validar si el usuario inició sessión
+            && si el id del usuario recibido es el mismo que el usuario autorizado,
+             para permitir que vea los botones solo de su publicación creada. --}}
+              @if (Auth::check() &&  $key->user_id ==Auth::user()->id)
 
                 <small class="pull-right">
 
