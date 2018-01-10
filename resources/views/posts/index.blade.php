@@ -12,8 +12,8 @@
             {{-- Colocando está condicional para validar si el usuario inició sessión
             && si el id del usuario recibido es el mismo que el usuario autorizado,
              para permitir que vea los botones solo de su publicación creada. --}}
-              @if (Auth::check() &&  $key->user_id ==Auth::user()->id)
-
+              @if ($key->wasCreatedBy(Auth::user()))
+                  {{-- Método creado en el Model --}}
                 <small class="pull-right">
 
                   <a href="{{ route('edit_post_path', ['post'=>$key->id] ) }}" class="btn btn-info" >Update Post</a>
