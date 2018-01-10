@@ -25,7 +25,9 @@ class PostController extends Controller
       // $posts = Post::all();
       // $posts = Post::orderBy('id', 'desc')->get();
 
-      $posts = Post::orderBy('id', 'desc')->paginate(10);
+      //Para evitar lo que se conoce como Lazy Loading para que evite
+      //realizar varias consulta y afecte al rendimineto de al Aplicación
+      $posts = Post::with('user')->orderBy('id', 'desc')->paginate(10);
       return view('posts.index')->with(['posts'=>$posts]);
 
     }

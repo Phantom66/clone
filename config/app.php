@@ -177,11 +177,18 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // Debugbar
+
+        Barryvdh\Debugbar\ServiceProvider::class,
+
         /*
          * Docblock para realizar documentación en Laravel
          */
 
          'F2m2\Apidocs\ApidocsServiceProvider',
+
+
+
 
     ],
 

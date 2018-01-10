@@ -38,5 +38,16 @@ class Post extends Model
 
     }
 
+    //Adaptando método para validar si el usuario que creó el post
+    public function wasCreatedBy($user){
+
+      if(is_null($user)){
+
+        return false;
+      }
+      //Con este método comparamos si el usario creó la publicación
+      return $this->user_id === $user->id;
+    }
+
 
 }
