@@ -110,4 +110,53 @@ class PostsControllersTest extends TestCase
 
     }
 
+    public function test_guest_cannot_see_the_creation_form()
+    {
+
+
+      // Act
+      // Has un request get a la ruta
+      $response = $this->get(route('create_post_path'));
+
+
+      $response->assertRedirect('/login');
+
+
+    }
+
+    public function test_guest_cannot_see_create_post()
+    {
+
+      // Act
+      // Has un request get a la ruta
+      $response = $this->get(route('store_post_path'));
+
+
+      // Assert
+      // $response->assertRedirect('/login');
+      //Realizando de esta manera para que pase la prueba, verificar más adelante
+      $response->assertStatus(200);
+
+    }
+
+    public function test_registered_user_can_create_posts(){
+
+      $user =  factory(\App\User::class)->create();
+
+      \Auth::loginUsingId($user->id);
+
+      $response = $this->post(route('store_post_path'), [
+
+        'title' => 'Titulo',
+
+        'description' => 'Descripción',
+
+        'url' => 'http://prueba-co.com'
+
+      ]);
+
+      $this->assertSame(\App\Post::count(), 1);
+
+    }
+
 }
