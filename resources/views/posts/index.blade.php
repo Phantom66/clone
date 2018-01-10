@@ -32,7 +32,7 @@
                 </small>
               @endif
           </h2>
-              <p>Posted  {{ $key->created_at->diffForHumans () }}</p>
+              <p>Posted  {{ $key->created_at->diffForHumans () }} by <b>{{ $key->user->name}}</b></p>
 
       @endforeach
         {{--

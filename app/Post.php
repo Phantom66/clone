@@ -46,7 +46,7 @@ class Post extends Model
         return false;
       }
       //Con este método comparamos si el usario creó la publicación
-      return $this->user_id == $user->id;
+      return $this->user_id === $user->id;
     }
 
 

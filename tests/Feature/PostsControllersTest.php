@@ -82,4 +82,32 @@ class PostsControllersTest extends TestCase
 
     }
 
+    public function test_see_posts_author()
+    {
+
+      // Arrange
+
+      //Crea  un model factoy de Post
+      $posts = factory(\App\Post::class, 10)->create();
+
+
+      // Act
+      // Has un request get a la ruta
+      $reponse = $this->get(route('posts_path'));
+
+
+      // Assert
+      // Si todo está bien enviará un código 200 = ok en telecomunicaciones.
+      $reponse->assertStatus(200);
+
+      foreach ($posts as $post) {
+
+        $reponse->assertSee($post->title);
+        $reponse->assertSee($post->user->name);
+
+      }
+
+
+    }
+
 }
