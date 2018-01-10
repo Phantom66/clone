@@ -159,4 +159,71 @@ class PostsControllersTest extends TestCase
 
     }
 
+    /** @test*/
+    public function only_user_edit_post(){
+
+      $user = factory(\App\User::class)->create();
+      $post = factory(\App\Post::class)->create(['user_id'=> $user->id ]);
+
+      \Auth::loginUsingId($user->id);
+
+      $response = $this->put(route('update_post_path', ['post'=>$post->id]), [
+
+        'title' => 'editado',
+        'description' => 'editado',
+        'url'=> 'http://prueba.com'
+
+      ]);
+
+
+      $post = \App\Post::first();
+
+      $this->assertSame($post->title, 'editado');
+      $this->assertSame($post->description, 'editado');
+      $this->assertSame($post->url, 'http://prueba.com');
+
+
+    }
+
+    /** @test*/
+    public function if_not_author_cannot_edit_post(){
+
+      $user = factory(\App\User::class)->create();
+      $post = factory(\App\Post::class)->create();
+
+      \Auth::loginUsingId($user->id);
+
+      $response = $this->put(route('update_post_path', ['post'=>$post->id]), [
+
+        'title' => 'editado',
+        'description' => 'editado',
+        'url'=> 'http://prueba.com'
+
+      ]);
+
+
+      $post = \App\Post::first();
+
+      $this->assertNotSame($post->title, 'editado');
+      $this->assertNotSame($post->description, 'editado');
+      $this->assertNotSame($post->url, 'http://prueba.com');
+
+
+    }
+
+    public function only_author_cant_delete_post(){
+
+      $user = factory(\App\User::class)->create();
+      $post = factory(\App\Post::class)->create(['user_id'=> $user->id ]);
+
+      \Auth::loginUsingId($user->id);
+
+
+      $this->delete(route('delete_post_path',  ['post'=>$post->id]));
+
+      $post->$post->fresh();
+      $this->assertNull($post);
+
+    }
+
 }
